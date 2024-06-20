@@ -10,8 +10,7 @@ public class MoneyDonation extends Donation {
     public MoneyDonation() {
     }
 
-    public MoneyDonation(double amount, Date date) {
+    public MoneyDonation(double amount) {
         this.amount = amount;
-        this.createdAt = date;
     }
 }

@@ -10,8 +10,7 @@ public class FoodDonation extends Donation {
     public FoodDonation() {
     }
 
-    public FoodDonation(double amount, Date date) {
+    public FoodDonation(double amount) {
         this.amount = amount;
-        this.createdAt = date;
     }
 }

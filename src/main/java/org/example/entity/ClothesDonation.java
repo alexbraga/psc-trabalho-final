@@ -13,10 +13,9 @@ public class ClothesDonation extends Donation {
     public ClothesDonation() {
     }
 
-    public ClothesDonation(String description, String size, double amount, Date date) {
+    public ClothesDonation(String description, String size, double amount) {
         this.description = description;
         this.size = size;
         this.amount = amount;
-        this.createdAt = date;
     }
 }
