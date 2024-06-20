@@ -15,8 +15,8 @@ public class Donation {
     @Temporal(TemporalType.TIMESTAMP)
     protected Date createdAt = new Date();
 
-    public String getDonationType() {
-        return this.getClass().getSimpleName();
+    public Long getId() {
+        return id;
     }
 
     public double getAmount() {
