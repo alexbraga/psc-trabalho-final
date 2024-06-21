@@ -1,21 +1,21 @@
-<h1 style="text-align: center;">
+<h1 align="center">
   Sistema de Doações
 </h1>
 
-<h3 style="text-align: center;">
+<h3 align="center">
     Trabalho final da disciplina de Programação de Soluções Computacionais
 </h3>
 
-<p style="text-align: center;">
+<p align="center">
   <a href="https://github.com/alexbraga/psc-trabalho-final/commits/master"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/alexbraga/psc-trabalho-final"></a>
   <a href="https://github.com/alexbraga/psc-trabalho-final/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/github/license/alexbraga/psc-trabalho-final"></a>
 </p>
 
-<h4 style="text-align: center;">
+<h4 align="center">
 	 Status: Em Andamento
 </h4>
 
-<p style="text-align: center;">
+<p align="center">
  <a href="#sobre">Sobre</a> •
  <a href="#conteúdo">Conteúdo</a> •
  <a href="#instruções-da-atividade">Instruções da Atividade</a> •
@@ -107,35 +107,39 @@ O conteúdo do trabalho abrange os seguintes tópicos:
 
 ## Diagrama de Classes (descrição)
 
-1. `Donation`: Esta é a classe base para todas as doações. Ela é uma classe abstrata que define propriedades comuns a todas as doações, como `amount` e `date`.
+1. `Donation`: esta é a classe base para todas as doações. Ela é uma classe abstrata que define propriedades comuns a todas as doações, como `amount` e `date`.
 
 2. `FoodDonation`, `MoneyDonation`, `ClothesDonation`: Estas são subclasses concretas de `Donation`. Cada uma representa um tipo específico de doação.
 
 3. `DonationDAO`: interface que define os métodos que um DAO (Data Access Object) para doações deve implementar. Os métodos incluem `addDonation`, `getAllDonations`, `getDonationById`, `updateDonation` e `deleteDonation`.
 
-4. `MariaDBDonationDAO`: implementação concreta da interface `DonationDAO`. Ela implementa os métodos definidos na interface `DonationDAO` para interagir com um banco de dados MariaDB.
+4. `DonationDAOImpl`: implementação concreta da interface DonationDAO. Ela implementa os métodos definidos na interface `DonationDAO` para interagir com um banco de dados usando o EntityManager.
 
-5. `ConnectionFactory`: interface que define os métodos que uma fábrica de conexões deve implementar. Os métodos incluem `getConnection`, `createTable` e `loadProperties`.
+5. `EntityManagerFactoryProvider`: interface que define os métodos que um provedor de EntityManagerFactory deve implementar. O método inclui `getEntityManagerFactory`.
 
-6. `MariaDBConnectionFactory`: implementação concreta da interface `ConnectionFactory`. Ela implementa os métodos definidos na interface `ConnectionFactory` para criar conexões com um banco de dados MariaDB.
+6. `MariaDBEntityManagerFactoryProvider`: implementação concreta da interface `EntityManagerFactoryProvider`. Ela implementa o método definido na interface para criar uma EntityManagerFactory para um banco de dados MariaDB.
 
 7. `DonationService`: classe responsável pelas regras de negócio relacionados a doações. Ela utiliza uma instância de `DonationDAO` para interagir com o banco de dados. Possui métodos como `addDonation`, `getAllDonations`, `getDonationById`, `updateDonation` e `deleteDonation`, que delegarão as operações para o `DonationDAO`.
 
-8. `DonationController`: Esta é uma classe que manipula as solicitações relacionadas a doações. Ela faz uso uma instância de `DonationService` para realizar as operações necessárias e retornará as respostas apropriadas.
+8. `DonationController`: esta é uma classe que manipula as solicitações relacionadas a doações. Ela faz uso uma instância de `DonationService` para realizar as operações necessárias e retornará as respostas apropriadas.
+
+9. `ConsoleInterface`: esta é uma classe que interage com o usuário através do console. Ela faz uso de uma instância de `DonationController` para realizar as operações necessárias e exibir as respostas apropriadas.
 
 Relações:
 
 - `FoodDonation`, `MoneyDonation` e `ClothesDonation` são subclasses de `Donation`.
 
-- `MariaDBDonationDAO` implementa `DonationDAO`.
+- `DonationDAOImpl` implementa `DonationDAO`.
 
-- `MariaDBConnectionFactory` implementa `ConnectionFactory`.
+- `MariaDBEntityManagerFactoryProvider` implementa `EntityManagerFactoryProvider`.
 
-- `MariaDBDonationDAO` tem uma relação de dependência com `ConnectionFactory`.
+- `DonationDAOImpl` tem uma relação de dependência com `EntityManagerFactoryProvider`.
 
 - `DonationService` tem uma relação de dependência com `DonationDAO`.
 
 - `DonationController` tem uma relação de dependência com `DonationService`.
+
+- `ConsoleInterface` tem uma relação de dependência com `DonationController`.
 
 ---
 
@@ -143,7 +147,8 @@ Relações:
 
 1. <a href="#1-pré-requisitos">Pré-requisitos</a>
 2. <a href="#2-clonando-o-repositório">Clonando o repositório</a>
-3. <a href="#3-executando-a-aplicação">Executando a aplicação</a>
+3. <a href="#3-configurando-o-hibernate">Configurando o Hibernate</a>
+4. <a href="#4-executando-a-aplicação">Executando a aplicação</a>
 
 ### 1. Pré-requisitos
 
@@ -152,9 +157,16 @@ Antes de começar, você precisará ter as seguintes ferramentas instaladas em s
 - [Git](https://git-scm.com)
 - [Java JDK 22 ou superior](https://www.oracle.com/java/technologies/downloads/)
 - [Maven](https://maven.apache.org/)
+- [MariaDB](https://mariadb.org/)
 
 Além disso, você talvez deseje utilizar uma IDE para trabalhar com o código, tal como o
 [IntelliJ IDEA](https://www.jetbrains.com/idea/).
+
+Você também deverá criar um novo banco de dados. A forma mais fácil de fazer isso é através de um software, como o [DBeaver](https://dbeaver.io/):
+
+1.  Após a instalação, [conecte-se ao banco de dados](https://dbeaver.com/docs/dbeaver/Create-Connection/)
+
+2.  Em seguida, clique com o botão direito em "Databases" -> "Create New Database"
 
 ### 2. Clonando o repositório
 
@@ -164,7 +176,68 @@ Abra uma janela do terminal e execute o seguinte comando
 git clone https://github.com/alexbraga/psc-trabalho-final.git
 ```
 
-### 3. Executando a aplicação
+### 3. Configurando o Hibernate
+
+Leia atentamente as instruções a seguir até o fim antes de continuar:
+
+Navegue até o diretório `resources`
+
+```
+cd psc-trabalho-final/src/main/resources
+```
+
+> [!WARNING]
+> Usuários do Windows devem utilizar `cd psc-trabalho-final\src\main\resources`
+
+Crie o diretório `META-INF`
+
+```
+mkdir META-INF
+```
+
+Crie o arquivo `persistence.xml`
+
+```
+touch persistence.xml
+```
+
+> [!WARNING]
+> Windows: `type nul > persistence.xml`
+
+- Caso prefira, utilize o gerenciador de arquivos do seu sistema ou a IDE de sua preferência para a criação da pasta e do arquivo citados acima
+
+Em seguida, abra o arquivo e adicione as configurações a seguir:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+    <persistence-unit name="mariadbPU">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/myDB"/>
+            <property name="javax.persistence.jdbc.user" value=""/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+
+            <!-- Configurações do Hibernate -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+</persistence>
+```
+
+> [!WARNING]
+>
+> 1. Na propriedade `javax.persistence.jdbc.url`, você deve substituir `myDB` pelo nome do banco de dados criado no seu sistema.
+> 2. Insira os valores adequados para `javax.persistence.jdbc.user` e `javax.persistence.jdbc.password`, de acordo com as configurações do seu banco de dados.
+
+### 4. Executando a aplicação
 
 Navegue até a raiz do projeto
 
