@@ -7,6 +7,7 @@ import org.example.entity.FoodDonation;
 import org.example.entity.MoneyDonation;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ConsoleInterface {
@@ -161,15 +162,25 @@ public class ConsoleInterface {
 
     public void getAllDonations() {
         List<Donation> donations = DONATION_CONTROLLER.getAllDonations();
+        Map<String, Double> totals = DONATION_CONTROLLER.getTotalDonationsByType();
 
         if (donations.isEmpty()) {
             System.out.println("Nenhuma doação foi encontrada.\n");
         } else {
             System.out.println();
 
-            donations.forEach(donation -> {
-                System.out.println(donation);
-            });
+            donations.forEach(donation -> System.out.println(donation));
+
+            System.out.println();
+            System.out.println("TOTAL");
+
+            for (Map.Entry<String, Double> entry : totals.entrySet()) {
+                switch (entry.getKey()) {
+                    case "Alimentos" -> System.out.println(entry.getKey() + ": " + entry.getValue() + " Kg/L");
+                    case "Roupas" -> System.out.println(entry.getKey() + ": " + entry.getValue() + " Und.");
+                    case "Dinheiro" -> System.out.println(entry.getKey() + ": R$ " + entry.getValue());
+                }
+            }
 
             System.out.println();
         }

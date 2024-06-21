@@ -1,9 +1,14 @@
 package org.example.service;
 
 import org.example.dao.DonationDAO;
+import org.example.entity.ClothesDonation;
 import org.example.entity.Donation;
+import org.example.entity.FoodDonation;
+import org.example.entity.MoneyDonation;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class DonationService {
@@ -20,6 +25,27 @@ public class DonationService {
 
     public List<Donation> getAllDonations() {
         return DONATION_DAO.getAllDonations();
+    }
+
+    public Map<String, Double> getTotalDonationsByType() {
+        List<Donation> donationList = DONATION_DAO.getAllDonations();
+
+        Map<String, Double> totals = new HashMap<>();
+        totals.put("Alimentos", 0.0);
+        totals.put("Roupas", 0.0);
+        totals.put("Dinheiro", 0.0);
+
+        for (Donation donation : donationList) {
+            if (donation instanceof FoodDonation) {
+                totals.put("Alimentos", totals.get("Alimentos") + donation.getAmount());
+            } else if (donation instanceof ClothesDonation) {
+                totals.put("Roupas", totals.get("Roupas") + donation.getAmount());
+            } else if (donation instanceof MoneyDonation) {
+                totals.put("Dinheiro", totals.get("Dinheiro") + donation.getAmount());
+            }
+        }
+
+        return totals;
     }
 
     public Donation getDonationById(Long id) {

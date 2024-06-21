@@ -4,6 +4,7 @@ import org.example.entity.Donation;
 import org.example.service.DonationService;
 
 import java.util.List;
+import java.util.Map;
 
 public class DonationController {
     private final DonationService DONATION_SERVICE;
@@ -19,6 +20,10 @@ public class DonationController {
 
     public List<Donation> getAllDonations() {
         return DONATION_SERVICE.getAllDonations();
+    }
+
+    public Map<String, Double> getTotalDonationsByType() {
+        return DONATION_SERVICE.getTotalDonationsByType();
     }
 
     public Donation getDonationById(Long id) {
