@@ -12,7 +12,7 @@
 </p>
 
 <h4 align="center">
-	 Status: Em Andamento
+	 Status: Concluído
 </h4>
 
 <p align="center">
@@ -29,7 +29,7 @@
 
 ## Sobre
 
-<p style="text-align: justify;">
+<p align="justify">
   Esta atividade, realizada para a disciplina de Programação de Soluções Computacionais, visa articular os conhecimentos trabalhados ao longo do semestre, contribuindo para a fixação dos conceitos. Além disso, o trabalho inclui um uso consciente e produtivo de IAs generativas, apresentando possibilidades de uso e auxílio desses softwares no ofício de desenvolvimento de sistemas.
 </p>
 
@@ -89,7 +89,7 @@ O conteúdo do trabalho abrange os seguintes tópicos:
 
 ## Crítica à IA
 
-<p style="text-align: justify;">
+<p align="justify">
   A utilização da ferramenta de IA generativa para a identificação dos requisitos funcionais não apresentou grande melhoria em relação ao texto do enunciado da atividade. O prompt inicial contou com uma breve contexualização, seguido do enunciado e, por fim, um pedido específico:
 </p>
 
@@ -99,7 +99,7 @@ O conteúdo do trabalho abrange os seguintes tópicos:
 >
 > Com base no enunciado acima, divida o problema em requisitos funcionais e liste todas as funcionalidades que o sistema deve ter de forma detalhada, sem apenas repetir as funções já listadas.
 
-<p style="text-align: justify;">
+<p align="justify">
   Apesar da solicitação específica acima, a IA praticamente apenas escreveu com outras palavras o que já havia sido informado no enunciado, limitando-se a extrair somente 2 novos requisitos, implícitos no texto original. Houve uma falha em não identificar outras funcionalidades básicas do sistema, como a capacidade de editar ou excluir doações e buscar doações específicas, por exemplo.
 </p>
 
