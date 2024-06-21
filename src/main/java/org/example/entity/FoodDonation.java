@@ -12,4 +12,9 @@ public class FoodDonation extends Donation {
     public FoodDonation(double amount) {
         this.amount = amount;
     }
+
+    @Override
+    public String toString() {
+        return "Doação de Alimento - Quantidade: " + this.getAmount() + " Kg/L" + " - Data: " + this.getCreatedAt();
+    }
 }

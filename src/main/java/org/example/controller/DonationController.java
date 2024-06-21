@@ -8,8 +8,8 @@ import java.util.List;
 public class DonationController {
     private final DonationService DONATION_SERVICE;
 
-    public DonationController(DonationService DONATION_SERVICE) {
-        this.DONATION_SERVICE = DONATION_SERVICE;
+    public DonationController(DonationService donationService) {
+        this.DONATION_SERVICE = donationService;
     }
 
     public void addDonation(Donation donation) {

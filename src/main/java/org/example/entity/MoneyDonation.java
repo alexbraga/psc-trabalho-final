@@ -12,4 +12,9 @@ public class MoneyDonation extends Donation {
     public MoneyDonation(double amount) {
         this.amount = amount;
     }
+
+    @Override
+    public String toString() {
+        return "Doação de Dinheiro - Valor: R$" + this.getAmount() + " - Data: " + this.getCreatedAt();
+    }
 }
