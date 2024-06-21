@@ -17,4 +17,12 @@ public class ClothesDonation extends Donation {
         this.size = size;
         this.amount = amount;
     }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
 }
