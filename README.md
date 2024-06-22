@@ -254,11 +254,8 @@ mvn compile
 Execute a aplicação
 
 ```
-java -cp target/classes org.example.Main
+mvn exec:java
 ```
-
-> [!WARNING]
-> Para executar a aplicação no Windows, use `java -cp target\classes org.example.Main`
 
 - Alternativamente, abra `psc-trabalho-final` com sua IDE de preferência e execute `Main.java`
 
