@@ -12,10 +12,10 @@ public class ClothesDonation extends Donation {
     public ClothesDonation() {
     }
 
-    public ClothesDonation(String description, String size, double amount) {
+    public ClothesDonation(String description, String size) {
         this.description = description;
         this.size = size;
-        this.amount = amount;
+        this.amount = 1;
     }
 
     public String getDescription() {

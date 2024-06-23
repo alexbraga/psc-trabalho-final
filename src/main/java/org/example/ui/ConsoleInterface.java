@@ -53,7 +53,7 @@ public class ConsoleInterface {
                     System.out.println("Saindo do programa...");
                     break;
                 default:
-                    System.out.println("Opção inválida. Por favor, tente novamente");
+                    System.out.println("Opção inválida. Por favor, tente novamente.");
                     break;
             }
         } while (option != 6);
@@ -71,27 +71,36 @@ public class ConsoleInterface {
             switch (donationType) {
                 case 1:
                     FoodDonation foodDonation = getFoodDonationInfo(null);
+
                     if (foodDonation != null) {
                         DONATION_CONTROLLER.addDonation(foodDonation);
                         System.out.println("Alimento doado com sucesso!\n");
                     }
                     break;
                 case 2:
-                    ClothesDonation clothesDonation = getClothesDonationInfo(null);
-                    if (clothesDonation != null) {
+                    System.out.println("Quantas peças de roupa serão doadas?");
+                    int quantity = Integer.parseInt(SCANNER.nextLine());
+                    System.out.println();
+
+                    for (int i = 1; i <= quantity; i++) {
+                        System.out.println("PEÇA #" + i);
+                        ClothesDonation clothesDonation = getClothesDonationInfo(null);
+
                         DONATION_CONTROLLER.addDonation(clothesDonation);
                         System.out.println("Roupa doada com sucesso!\n");
                     }
+
                     break;
                 case 3:
                     MoneyDonation moneyDonation = getMoneyDonationInfo(null);
+
                     if (moneyDonation != null) {
                         DONATION_CONTROLLER.addDonation(moneyDonation);
                         System.out.println("Dinheiro doado com sucesso!\n");
                     }
                     break;
                 default:
-                    System.out.println("Opção inválida. Por favor, tente novamente");
+                    System.out.println("Opção inválida. Por favor, tente novamente.");
                     break;
             }
         } catch (NumberFormatException e) {
@@ -102,20 +111,24 @@ public class ConsoleInterface {
     }
 
     private FoodDonation getFoodDonationInfo(FoodDonation donation) {
-        System.out.println("Quantos quilos/litros estão sendo doados? [somente números]");
-        double amount = Double.parseDouble(SCANNER.nextLine());
+        double amount;
+        do {
+            System.out.println("Quantos quilos/litros estão sendo doados? [somente números]");
+            amount = Double.parseDouble(SCANNER.nextLine());
 
-        if (amount <= 0) {
-            System.out.println("A quantidade deve ser um número positivo.");
-            return null;
-        }
+            if (amount > 0) {
+                if (donation == null) {
+                    return new FoodDonation(amount);
+                } else {
+                    donation.setAmount(amount);
+                    return donation;
+                }
+            } else {
+                System.out.println("A quantidade deve ser um número positivo. Por favor, tente novamente.\n");
+            }
+        } while (amount <= 0);
 
-        if (donation == null) {
-            return new FoodDonation(amount);
-        } else {
-            donation.setAmount(amount);
-            return donation;
-        }
+        return null;
     }
 
     private ClothesDonation getClothesDonationInfo(ClothesDonation donation) {
@@ -125,39 +138,34 @@ public class ConsoleInterface {
         System.out.println("Qual o tamanho da peça? [infantil/P/M/G...]");
         String size = SCANNER.nextLine();
 
-        System.out.println("Quantas unidades estão sendo doadas?");
-        double amount = Double.parseDouble(SCANNER.nextLine());
-
-        if (amount <= 0) {
-            System.out.println("A quantidade deve ser um número positivo.");
-            return null;
-        }
-
         if (donation == null) {
-            return new ClothesDonation(description, size, amount);
+            return new ClothesDonation(description, size);
         } else {
             donation.setDescription(description);
             donation.setSize(size);
-            donation.setAmount(amount);
             return donation;
         }
     }
 
     private MoneyDonation getMoneyDonationInfo(MoneyDonation donation) {
-        System.out.println("Insira o valor da doação:");
-        double amount = Double.parseDouble(SCANNER.nextLine());
+        double amount;
+        do {
+            System.out.println("Insira o valor da doação:");
+            amount = Double.parseDouble(SCANNER.nextLine());
 
-        if (amount <= 0) {
-            System.out.println("O valor da doação deve ser um número positivo.\n");
-            return null;
-        }
+            if (amount > 0) {
+                if (donation == null) {
+                    return new MoneyDonation(amount);
+                } else {
+                    donation.setAmount(amount);
+                    return donation;
+                }
+            } else {
+                System.out.println("O valor da doação deve ser maior que R$ 0,00. Por favor, tente novamente.\n");
+            }
+        } while (amount <= 0);
 
-        if (donation == null) {
-            return new MoneyDonation(amount);
-        } else {
-            donation.setAmount(amount);
-            return donation;
-        }
+        return null;
     }
 
     public void getAllDonations() {
@@ -172,13 +180,13 @@ public class ConsoleInterface {
             donations.forEach(donation -> System.out.println(donation));
 
             System.out.println();
-            System.out.println("TOTAL");
+            System.out.println("TOTAL DE DOAÇÕES: " + totals.size() + "\n");
 
             for (Map.Entry<String, Double> entry : totals.entrySet()) {
                 switch (entry.getKey()) {
-                    case "Alimentos" -> System.out.println(entry.getKey() + ": " + entry.getValue() + " Kg/L");
+                    case "Alimentos" -> System.out.println(entry.getKey() + ": " + entry.getValue() + " Kg");
                     case "Roupas" -> System.out.println(entry.getKey() + ": " + entry.getValue() + " Und.");
-                    case "Dinheiro" -> System.out.println(entry.getKey() + ": R$ " + entry.getValue());
+                    case "Dinheiro" -> System.out.printf("%s: R$ %.2f%n", entry.getKey(), entry.getValue());
                 }
             }
 
@@ -232,7 +240,7 @@ public class ConsoleInterface {
                     System.out.println();
                     mainMenu();
                 } else {
-                    System.out.println("Opção inválida. Por favor, tente novamente\n");
+                    System.out.println("Opção inválida. Por favor, tente novamente.\n");
                 }
             } else {
                 System.out.println("Nenhuma doação foi encontrada com o ID fornecido.\n");
